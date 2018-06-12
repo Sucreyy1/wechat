@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: wechat-application
+  profiles:
+    active: dev
+  datasource:
+      url:
+      username:
+      password:
+      driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+server:
+  port: 5560
+
+logging:
+  config: classpath:logback.xml
+

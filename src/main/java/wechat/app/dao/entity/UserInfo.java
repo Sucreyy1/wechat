@@ -1,4 +1,4 @@
-package wechat.app.entity;
+package wechat.app.dao.entity;
 
 
 import javax.persistence.*;

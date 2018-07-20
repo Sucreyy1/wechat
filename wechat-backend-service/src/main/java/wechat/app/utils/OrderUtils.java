@@ -14,15 +14,18 @@ public class OrderUtils {
      * @return
      */
     public static String getOrderId() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssS");
         String newDate = sdf.format(new Date());
         String result = "";
         Random random = new Random();
-        StringBuilder sb = new StringBuilder(newDate);
-        for (int i = 0; i < 6; i++) {
-            sb.append(random.nextInt(10));
-        }
+        StringBuilder sb = new StringBuilder(newDate).append((int)((random.nextDouble()*9+1)*1000));
         return sb.toString();
+    }
+
+    public static void main(String[] args) {
+        for (int i = 0; i < 10; i++) {
+            System.out.println(getOrderId());
+        }
     }
 
 }

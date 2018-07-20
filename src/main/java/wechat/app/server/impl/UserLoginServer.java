@@ -8,10 +8,13 @@ import wechat.app.server.IUserLogin;
 
 @Service
 public class UserLoginServer implements IUserLogin{
+
     @Autowired
     private UserLoginDao userLoginDao;
+
     @Override
-    public void login(JSONObject jsonObject) {
-        userLoginDao.login(jsonObject);
+    public int login(JSONObject jsonObject) {
+        return userLoginDao.login(jsonObject);
+
     }
 }

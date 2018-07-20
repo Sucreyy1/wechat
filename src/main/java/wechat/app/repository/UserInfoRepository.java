@@ -8,4 +8,6 @@ import wechat.app.dao.entity.UserInfo;
 @Repository
 public interface UserInfoRepository extends JpaRepository<UserInfo,String>,PagingAndSortingRepository<UserInfo,String> {
 
+    UserInfo findByOpenId(String openId);
+
 }

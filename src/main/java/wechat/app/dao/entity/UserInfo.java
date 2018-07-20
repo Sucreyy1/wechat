@@ -3,13 +3,14 @@ package wechat.app.dao.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "user_info")
 public class UserInfo implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private int id;
 
@@ -118,5 +119,62 @@ public class UserInfo implements Serializable {
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
+    }
+
+//    @Override
+//    public int hashCode() {
+//        int result = 17;
+//        result = 31 * result + this.userName.hashCode();
+//        result = 31 * result + this.province.hashCode();
+//        result = 31 * result + this.phone.hashCode();
+//        result = 31 * result + this.openId.hashCode();
+//        result = 31 * result + this.gender;
+//        result = 31 * result + this.avatarUrl.hashCode();
+//        result = 31 * result + this.city.hashCode();
+//        result = 31 * result + this.country.hashCode();
+//        return result;
+//    }
+
+    /**
+     * 重写hashCode,此方法和上面注释方法效果一致
+     *
+     * @return hashCode
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                this.userName,
+                this.province,
+                this.phone,
+                this.openId,
+                this.gender,
+                this.avatarUrl,
+                this.city,
+                this.country);
+    }
+
+    /**
+     * 重写equals,判断是否为同一个客户或者客户信息有更新.
+     * 不将id和session_id纳入判断指标,session_id可能每次不一样
+     *
+     * @param obj
+     * @return boolean
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (null == obj)
+            return false;
+        if (obj instanceof UserInfo) {
+            UserInfo u = (UserInfo) obj;
+            return u.avatarUrl.equals(this.avatarUrl) &&
+                    u.city.equals(this.city) &&
+                    u.country.equals(this.country) &&
+                    u.gender == this.gender &&
+                    u.openId.equals(this.openId) &&
+                    u.phone.equals(this.phone) &&
+                    u.province.equals(this.province) &&
+                    u.userName.equals(this.userName);
+        }
+        return false;
     }
 }

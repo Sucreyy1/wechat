@@ -1,16 +1,14 @@
 package wechat.app.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.core.PrettyPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import wechat.app.server.IUserLogin;
+import wechat.app.utils.JsonUtils;
 
-import javax.transaction.Transactional;
 
 @RestController
 @RequestMapping("/wechat")
@@ -24,16 +22,21 @@ public class WechatController {
 
     /**
      * 微信登陆后保存用户信息
+     *
      * @param jsonObject 前端用户信息
-     * @return 可有可无
+     * @return jsonObject
      */
     @PostMapping("/login")
-    @Transactional(rollbackOn = Exception.class)
-    public JSONObject test(@RequestBody JSONObject jsonObject){
-        logger.info(jsonObject.toJSONString());
-        userLogin.login(jsonObject);
+    public JSONObject test(@RequestBody JSONObject jsonObject) {
+        logger.info("微信登陆信息:{}",JsonUtils.prettyJson(jsonObject.toJSONString()));
+        if(userLogin.login(jsonObject) == 1){
+            jsonObject.clear();
+            jsonObject.put("resCode", 500);
+            jsonObject.put("message","登陆失败");
+        }
         jsonObject.clear();
-        jsonObject.put("resCode",200);
+        jsonObject.put("resCode", 200);
+        jsonObject.put("message","登陆成功");
         return jsonObject;
     }
 }

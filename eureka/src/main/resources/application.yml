@@ -1,0 +1,15 @@
+spring:
+  profiles:
+    active: default
+  application:
+    name: eureka-service
+server:
+  port: 7000
+eureka:
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+    service-url:
+      defaultZone: http://localhost:${server.port}/eureka/
+  server:
+    enable-self-preservation: false

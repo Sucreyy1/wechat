@@ -1,12 +1,11 @@
 package wechat.app.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.core.PrettyPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import wechat.app.server.IUserLogin;
+import wechat.app.service.IUserLoginService;
 import wechat.app.utils.JsonUtils;
 
 
@@ -17,7 +16,7 @@ public class WechatController {
     private static Logger logger = LoggerFactory.getLogger(WechatController.class);
 
     @Autowired
-    private IUserLogin userLogin;
+    private IUserLoginService userLogin;
 
 
     /**
@@ -33,6 +32,7 @@ public class WechatController {
             jsonObject.clear();
             jsonObject.put("resCode", 500);
             jsonObject.put("message","登陆失败");
+            return jsonObject;
         }
         jsonObject.clear();
         jsonObject.put("resCode", 200);

@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: wechat-zuul-service
+  profiles:
+    active: default
+  datasource:
+      url:
+      username:
+      password:
+      driver-class-name: com.mysql.jdbc.Driver
+      #双网卡下的配置，优先选用26.1.开头的网卡
+#  cloud:
+#    inetutils:
+#      preferred-networks: 26.1.
+server:
+  port: 7001
+
+logging:
+  config: classpath:logback.xml
+eureka:
+  client:
+    service-url:
+      #jar包启动参数传入eureka.host就取传入的值，不传就取localhost
+      defaultZone: http://${eureka.host:localhost}:7000/eureka/
+  instance:
+    prefer-ip-address: true
+
+#网关路由设置
+#请求示例：http://localhost:7001/wechat/wechat/login
+zuul:
+  routes:
+    wechat:
+      path: /wechat/**
+      serviceId: wechat-backend-service
+  host:
+    socket-timeout-millis: 600000
+    connect-timeout-millis: 600000
+#登陆需要的token
+access:
+  token: yy123456

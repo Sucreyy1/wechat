@@ -16,7 +16,6 @@ public class OrderUtils {
     public static String getOrderId() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssS");
         String newDate = sdf.format(new Date());
-        String result = "";
         Random random = new Random();
         StringBuilder sb = new StringBuilder(newDate).append((int)((random.nextDouble()*9+1)*1000));
         return sb.toString();

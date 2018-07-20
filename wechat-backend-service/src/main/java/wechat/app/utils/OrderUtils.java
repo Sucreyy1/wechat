@@ -21,11 +21,4 @@ public class OrderUtils {
         StringBuilder sb = new StringBuilder(newDate).append((int)((random.nextDouble()*9+1)*1000));
         return sb.toString();
     }
-
-    public static void main(String[] args) {
-        for (int i = 0; i < 10; i++) {
-            System.out.println(getOrderId());
-        }
-    }
-
 }

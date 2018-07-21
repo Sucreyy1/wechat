@@ -50,7 +50,8 @@ public class WechatController {
      */
     @PostMapping("/add")
     public JSONObject add(@RequestBody JSONObject jsonObject){
-        logger.info("购物车信息:{}",JsonUtils.prettyJson(jsonObject));
+        //todo 前端返回信息封装
+        logger.info("商品信息:{}",JsonUtils.prettyJson(jsonObject));
         int result = itemService.addToCar(jsonObject);
         jsonObject.clear();
         jsonObject.put("resCode",200);

@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import wechat.app.dao.entity.ItemInfo;
 import wechat.app.repository.ItemRepository;
 import wechat.app.service.IItemService;
@@ -12,6 +13,7 @@ import wechat.app.service.IItemService;
 import java.util.Date;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class ItemServiceImpl implements IItemService {
 
     private static Logger logger = LoggerFactory.getLogger(ItemServiceImpl.class);
@@ -21,6 +23,7 @@ public class ItemServiceImpl implements IItemService {
 
     @Override
     public int addToCar(JSONObject test) {
+        //todo item_id重复不可添加,异常处理
         ItemInfo itemInfo = new ItemInfo();
         itemInfo.setItemId(test.getString("itemId"));
         itemInfo.setItemAmount(test.getString("itemAmount"));

@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import wechat.app.service.IItemService;
 import wechat.app.service.IUserLoginService;
 import wechat.app.utils.JsonUtils;
 
@@ -17,6 +18,8 @@ public class WechatController {
 
     @Autowired
     private IUserLoginService userLogin;
+    @Autowired
+    private IItemService itemService;
 
 
     /**
@@ -26,8 +29,8 @@ public class WechatController {
      * @return jsonObject
      */
     @PostMapping("/login")
-    public JSONObject test(@RequestBody JSONObject jsonObject) {
-        logger.info("微信登陆信息:{}",JsonUtils.prettyJson(jsonObject.toJSONString()));
+    public JSONObject login(@RequestBody JSONObject jsonObject) {
+        logger.info("微信登陆信息:{}",JsonUtils.prettyJson(jsonObject));
         if(userLogin.login(jsonObject) == 1){
             jsonObject.clear();
             jsonObject.put("resCode", 500);
@@ -37,6 +40,21 @@ public class WechatController {
         jsonObject.clear();
         jsonObject.put("resCode", 200);
         jsonObject.put("message","登陆成功");
+        return jsonObject;
+    }
+
+    /**
+     * 购买商品
+     * @param jsonObject 订单信息
+     * @return jsonObject
+     */
+    @PostMapping("/add")
+    public JSONObject add(@RequestBody JSONObject jsonObject){
+        logger.info("购物车信息:{}",JsonUtils.prettyJson(jsonObject));
+        int result = itemService.addToCar(jsonObject);
+        jsonObject.clear();
+        jsonObject.put("resCode",200);
+        jsonObject.put("message","添加成功");
         return jsonObject;
     }
 }

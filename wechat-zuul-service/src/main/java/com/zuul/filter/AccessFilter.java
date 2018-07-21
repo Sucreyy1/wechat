@@ -18,6 +18,7 @@ public class AccessFilter extends ZuulFilter {
 
     @Override
     public Object run() {
+        //todo 设计token怎么生成,过滤其他请求
         RequestContext context = RequestContext.getCurrentContext();
         HttpServletRequest request = context.getRequest();
         logger.info("send {} request to {}",request.getMethod(),request.getRequestURL().toString());

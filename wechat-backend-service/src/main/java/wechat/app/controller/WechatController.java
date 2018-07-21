@@ -30,6 +30,7 @@ public class WechatController {
      */
     @PostMapping("/login")
     public JSONObject login(@RequestBody JSONObject jsonObject) {
+        //todo 重新设计参数传递,现在看起来很乱
         logger.info("微信登陆信息:{}",JsonUtils.prettyJson(jsonObject));
         if(userLogin.login(jsonObject) == 1){
             jsonObject.clear();

@@ -13,8 +13,11 @@ public class UserLoginServiceImpl implements IUserLoginService {
     private UserLoginDao userLoginDao;
 
     @Override
-    public int login(JSONObject jsonObject) {
-        return userLoginDao.login(jsonObject);
-
+    public String login(JSONObject jsonObject) {
+        JSONObject info = jsonObject.getJSONObject("userinfo");
+        JSONObject authInfo = info.getJSONObject("authInfo");
+        JSONObject userInfo = info.getJSONObject("userInfo");
+        userInfo.put("phone",info.getString("phone"));
+        return userLoginDao.login(authInfo,userInfo);
     }
 }

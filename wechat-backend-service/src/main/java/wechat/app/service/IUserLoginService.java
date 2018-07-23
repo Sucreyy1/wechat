@@ -4,6 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 
 public interface IUserLoginService {
 
-    int login(JSONObject jsonObject);
+    String login(JSONObject jsonObject);
 
 }

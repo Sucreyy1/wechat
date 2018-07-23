@@ -3,6 +3,8 @@ package wechat.app.dao.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -40,6 +42,12 @@ public class UserInfo implements Serializable {
 
     @Column(name = "phone")
     private String phone;
+
+    @Column(name = "create_time")
+    private Date createTime;
+
+    @Column(name = "update_time")
+    private Date updateTime;
 
     public int getId() {
         return id;
@@ -121,7 +129,23 @@ public class UserInfo implements Serializable {
         this.avatarUrl = avatarUrl;
     }
 
-//    @Override
+    public String getCreateTime() {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(this.createTime);
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getUpdateTime() {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(this.updateTime);
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    //    @Override
 //    public int hashCode() {
 //        int result = 17;
 //        result = 31 * result + this.userName.hashCode();

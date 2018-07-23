@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import wechat.app.constant.ConstantCode;
+import wechat.app.constant.ConstantEnum;
 import wechat.app.service.IItemService;
 import wechat.app.service.IUserLoginService;
 import wechat.app.utils.JsonUtils;
@@ -30,33 +32,33 @@ public class WechatController {
      */
     @PostMapping("/login")
     public JSONObject login(@RequestBody JSONObject jsonObject) {
-        //todo 重新设计参数传递,现在看起来很乱
-        logger.info("微信登陆信息:{}",JsonUtils.prettyJson(jsonObject));
-        if(userLogin.login(jsonObject) == 1){
+        logger.info("微信登陆信息:{}", JsonUtils.prettyJson(jsonObject));
+        if (ConstantCode.FAIL.equals(userLogin.login(jsonObject))) {
             jsonObject.clear();
-            jsonObject.put("resCode", 500);
-            jsonObject.put("message","登陆失败");
+            jsonObject.put("resCode", ConstantEnum.FAIL.getCode());
+            jsonObject.put("message", ConstantEnum.FAIL.getMessage());
             return jsonObject;
         }
         jsonObject.clear();
-        jsonObject.put("resCode", 200);
-        jsonObject.put("message","登陆成功");
+        jsonObject.put("resCode", ConstantEnum.SUCCESS.getCode());
+        jsonObject.put("message", ConstantEnum.SUCCESS.getMessage());
         return jsonObject;
     }
 
     /**
-     * 购买商品
+     * 生成订单
+     *
      * @param jsonObject 订单信息
      * @return jsonObject
      */
     @PostMapping("/add")
-    public JSONObject add(@RequestBody JSONObject jsonObject){
-        //todo 前端返回信息封装
-        logger.info("商品信息:{}",JsonUtils.prettyJson(jsonObject));
+    public JSONObject add(@RequestBody JSONObject jsonObject) {
+        //todo 暂时还没写订单逻辑,只是做测试
+        logger.info("商品信息:{}", JsonUtils.prettyJson(jsonObject));
         int result = itemService.addToCar(jsonObject);
         jsonObject.clear();
-        jsonObject.put("resCode",200);
-        jsonObject.put("message","添加成功");
+        jsonObject.put("resCode", ConstantEnum.SUCCESS.getCode());
+        jsonObject.put("message", ConstantEnum.SUCCESS.getMessage());
         return jsonObject;
     }
 }

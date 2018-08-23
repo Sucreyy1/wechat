@@ -17,28 +17,27 @@ public class QueueUtils {
 
     private static Condition condition = lock.newCondition();
 
-    private QueueUtils(){
+    private QueueUtils() {
 
     }
 
-    public static void payStatusCheck(OrderInfo orderInfo){
-        if (queue.add(orderInfo)){
+    public static void payStatusCheck(OrderInfo orderInfo) {
+        if (queue.add(orderInfo)) {
             condition.signal();
         }
     }
 
 
-    public void check(){
-        new Thread(()->{
+    public void check() {
+        new Thread(() -> {
             try {
-                for (;;){
+                for (;;) {
                     OrderInfo orderInfo = queue.poll();
                     if (orderInfo != null) {
                         //超时将订单置为无效
                         orderInfo.setStatus("");
                         orderInfo.setUpdateTime(new Date());
-                    }
-                    else {
+                    } else {
                         condition.await();
                     }
                 }

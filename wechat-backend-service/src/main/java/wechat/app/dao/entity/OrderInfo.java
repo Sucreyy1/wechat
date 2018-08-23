@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
  * 订单信息
  * 实现Delayer接口用于加入延迟队列进行订单状态轮询
  */
-public class OrderInfo implements Serializable,Delayed {
+public class OrderInfo implements Serializable, Delayed {
 
     private String status;
 
@@ -43,7 +43,7 @@ public class OrderInfo implements Serializable,Delayed {
 
     @Override
     public long getDelay(TimeUnit unit) {
-        return unit.convert(this.createTime.getTime() - System.currentTimeMillis(),TimeUnit.MILLISECONDS);
+        return unit.convert(this.createTime.getTime() - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -51,8 +51,8 @@ public class OrderInfo implements Serializable,Delayed {
         if (this == o)
             return 0;
         if (o instanceof OrderInfo) {
-            OrderInfo o1 = (OrderInfo)o;
-            return (int)(this.getCreateTime().getTime() - o1.getCreateTime().getTime());
+            OrderInfo o1 = (OrderInfo) o;
+            return (int) (this.getCreateTime().getTime() - o1.getCreateTime().getTime());
         }
         return -1;
     }

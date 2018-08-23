@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import wechat.app.constant.ConstantCode;
 import wechat.app.constant.ConstantEnum;
 import wechat.app.service.IItemService;
+import wechat.app.service.IRedisService;
 import wechat.app.service.IUserLoginService;
 import wechat.app.utils.JsonUtils;
 
@@ -22,6 +23,8 @@ public class WechatController {
     private IUserLoginService userLogin;
     @Autowired
     private IItemService itemService;
+    @Autowired
+    private IRedisService redisService;
 
 
     /**
@@ -59,6 +62,43 @@ public class WechatController {
         jsonObject.clear();
         jsonObject.put("resCode", ConstantEnum.SUCCESS.getCode());
         jsonObject.put("message", ConstantEnum.SUCCESS.getMessage());
+        return jsonObject;
+    }
+
+    /**
+     * 缓存购物车
+     * @param jsonObject
+     * @return
+     */
+    @PostMapping("/toRedis")
+    public JSONObject toRedis(JSONObject jsonObject){
+        //用户信息
+        String userId = jsonObject.getString("user_id");
+        //购物车信息
+        JSONObject itemList = jsonObject.getJSONObject("itemList");
+        //todo 通过md5加密算法，计算redis缓存使用的key
+        String key = null;
+        redisService.set(key,itemList.toJSONString());
+        jsonObject.clear();
+        jsonObject.put("resCode", ConstantEnum.SUCCESS.getCode());
+        jsonObject.put("message", ConstantEnum.SUCCESS.getMessage());
+        return jsonObject;
+    }
+
+    /**
+     * 取出缓存中的信息
+     * @param userId
+     * @return
+     */
+    @PostMapping("/getItem")
+    public JSONObject getItem(@RequestParam(name = "userId") String userId){
+        //todo md5加密后的key
+        String key=null;
+        String s = redisService.get(key);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("resCode", ConstantEnum.SUCCESS.getCode());
+        jsonObject.put("message", ConstantEnum.SUCCESS.getMessage());
+        jsonObject.put("data",s);
         return jsonObject;
     }
 }

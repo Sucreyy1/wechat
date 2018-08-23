@@ -11,6 +11,7 @@
         <module>wechat-zuul-service</module>
         <module>wechat-backend-service</module>
         <module>eureka</module>
+        <module>wecaht-front</module>
     </modules>
     <packaging>pom</packaging>
 

@@ -21,3 +21,14 @@ eureka:
       defaultZone: http://${eureka.host:localhost}:7000/eureka/
   instance:
     prefer-ip-address: true
+
+redis:
+  host:
+  password:
+  port: 6379
+  pool:
+    maxTotal: 10
+    maxIdle: 2
+    minIdle: 1
+    maxWaitMillis: 10000
+    testOnBorrow: true

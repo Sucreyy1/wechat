@@ -6,6 +6,9 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * 商品信息
+ */
 @Entity
 @Table(name = "item_info")
 public class ItemInfo implements Serializable {

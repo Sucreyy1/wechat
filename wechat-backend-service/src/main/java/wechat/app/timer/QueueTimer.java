@@ -1,5 +1,7 @@
 package wechat.app.timer;
 
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
 import wechat.app.dao.entity.OrderInfo;
 
 import java.util.Date;
@@ -8,7 +10,8 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class QueueUtils {
+@Component
+public class QueueTimer {
 
     //Thread-safe queue
     private static DelayQueue<OrderInfo> queue = new DelayQueue<>();
@@ -17,13 +20,19 @@ public class QueueUtils {
 
     private static Condition condition = lock.newCondition();
 
-    private QueueUtils() {
+    private QueueTimer() {
 
     }
 
-    public static void payStatusCheck(OrderInfo orderInfo) {
-        if (queue.add(orderInfo)) {
-            condition.signal();
+    @Async
+    public void payStatusCheck(OrderInfo orderInfo) {
+        try {
+            lock.lock();
+            if (queue.add(orderInfo)) {
+                condition.signal();
+            }
+        } finally {
+            lock.unlock();
         }
     }
 
@@ -44,7 +53,7 @@ public class QueueUtils {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        });
+        }).start();
     }
 
 }
